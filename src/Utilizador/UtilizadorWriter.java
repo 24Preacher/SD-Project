@@ -52,6 +52,9 @@ public class UtilizadorWriter implements Runnable{
                 /*if (opcao == 2){
                     downloadMusica();
                 }*/
+                if (opcao == 3){
+                    verMusicas();
+                }
                 if (opcao == 0){
                     terminarSessao();
                 }
@@ -83,12 +86,20 @@ public class UtilizadorWriter implements Runnable{
     }
 
     private  void uploadMusica() throws IOException{
+        String nomefich = menu.lerString("Ficheiro:");
+        String path = "C:\\Users\\ferre\\GitHub\\SD-Project\\src\\Upload\\" + nomefich;
         String titulo = menu.lerString("Titulo:");
         String artista = menu.lerString("Artista:");
         String album = menu.lerString("Album:");
-        Integer genero = menu.lerInteger("0 - Variavel\n 1 - Pop\n 2 - Rock\n 3 - Rap\n 4-Trap\n Escolher opção: ");
-        String q = String.join(" ", "upload", titulo, artista, album, genero.toString());
+        String genero = menu.lerString("0 - Variavel\n1 - Pop\n2 - Rock\n3 - Rap\n4 - Trap\n Escolher opção: ");
+        String q = String.join(" ", "upload", path, titulo, artista, album, genero);
         out.write(q);
+        out.newLine();
+        out.flush();
+    }
+
+    private void verMusicas() throws IOException{
+        out.write("ver");
         out.newLine();
         out.flush();
     }

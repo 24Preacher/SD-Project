@@ -18,9 +18,9 @@ public class ServidorWriter implements Runnable{
         while (true) {
             try {
                 String r = msg.read();
-                output.write(r);
-                output.newLine();
-                output.flush();
+                this.output.write(r);
+                this.output.newLine();
+                this.output.flush();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }

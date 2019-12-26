@@ -36,6 +36,7 @@ public class Menu {
                 System.out.println("************* MENU ****************\n" +
                         "* 1 - Upload de música            *\n" +
                         "* 2 - Download de música          *\n" +
+                        "* 3 - Ver Musicas                 *\n" +
                         "* 0 - Sair                        *\n" +
                         "***********************************\n");
         }

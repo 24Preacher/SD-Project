@@ -1,7 +1,9 @@
 package Servidor;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -23,9 +25,9 @@ public class Cloud {
     public void registar(String username, String password) throws IOException {
         usersLock.lock();
         try {
-            if (users.containsKey(username))
+            if (this.users.containsKey(username))
                 throw new IOException("Username existente");
-            else users.put(username, new Utilizador(username, password));
+            else this.users.put(username, new Utilizador(username, password));
         } finally {
             usersLock.unlock();
         }
@@ -33,9 +35,9 @@ public class Cloud {
 
     public Utilizador iniciarSessao(String username, String password, MensagemBuffer msg) throws IOException {
         Utilizador u;
-        usersLock.lock();
+        this.usersLock.lock();
         try {
-            u = users.get(username);
+            u = this.users.get(username);
             if (u == null || !u.autenticar(password)) throw new IOException("Dados incorretos");
             else u.setMsg(msg);
         } finally {
@@ -45,13 +47,37 @@ public class Cloud {
         return u;
     }
 
-    public void uploadMusica(String path, String titulo, String artista, String album, String genero){
-        musicasLock.lock();
+    public byte[] conversor(String path) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
+
+        int read;
+        byte[] buff = new byte[1024];
+        while ((read = in.read(buff)) > 0)
+        {
+            out.write(buff, 0, read);
+        }
+        out.flush();
+        byte[] audioBytes = out.toByteArray();
+        return audioBytes;
+    }
+
+    public void uploadMusica(String path, String titulo, String artista, String album, String genero) throws IOException {
+        this.musicasLock.lock();
         try {
             int id = this.musicas.size();
-            musicas.put(id, new Musica(id, bytes, titulo, artista, album, Integer.parseInt(genero), 0));
+            System.out.println(id);
+            byte[] bytes = conversor(path);
+            this.musicas.put(id, new Musica(id, bytes, titulo, artista, album, Integer.parseInt(genero), 0));
         } finally {
-            musicasLock.unlock();
+            this.musicasLock.unlock();
         }
+    }
+
+    public List<Musica> verMusicas() {
+        List<Musica> songs = new ArrayList<>();
+        for (Musica m : this.musicas.values())
+                    songs.add(m);
+        return songs;
     }
 }

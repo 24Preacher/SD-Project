@@ -25,7 +25,7 @@ public class UtilizadorWriter implements Runnable{
         int op;
         menu.apresentarMenu();
         try {
-            while ((op = menu.op()) != -1) {
+            while ((op = menu.opcao()) != -1) {
                 parse(op);
             }
         } catch (IOException e) {

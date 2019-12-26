@@ -27,7 +27,7 @@ public class Menu {
         switch (opcao) {
             case 0:
                 System.out.println("************* MENU ****************\n" +
-                        "* 1 - Iniciar Sessao              *\n" +
+                        "* 1 - Iniciar Sessão              *\n" +
                         "* 2 - Registar Utilizador         *\n" +
                         "* 0 - Sair                        *\n" +
                         "***********************************\n");
@@ -41,13 +41,13 @@ public class Menu {
         try {
             n = Integer.parseInt(in.nextLine());
         } catch (NumberFormatException e) {
-            System.out.println("\n>Valor inválido\n");
+            System.out.println("\nValor inválido\n");
             n = -1;
         }
         return n;
     }
 
-    public Integer op() {
+    public Integer opcao() {
         int opcao = lerOpcao();
         if (opcao == 0) {
             while (opcao < 0 || opcao > 2) {

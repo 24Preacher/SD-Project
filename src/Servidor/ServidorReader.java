@@ -18,6 +18,7 @@ import java.util.Map;
 public class ServidorReader implements Runnable {
 
     private Utilizador utilizador;
+    private Musica musica;
     private BufferedReader in;
     private MensagemBuffer msg;
     private Socket socket;
@@ -28,17 +29,19 @@ public class ServidorReader implements Runnable {
         this.socket = socket;
         this.cloud = cloud;
         this.utilizador = null;
+        this.musica = null;
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
     public void run() {
         String r;
-        while ((r = readLine()) != null) {
+        while ((r = lerLinha()) != null) {
             try {
                 msg.write(parse(r));
             } catch (IndexOutOfBoundsException e) {
                 msg.write("Inadequado");
             } catch (IOException e) {
+
                 e.printStackTrace();
             }
         }
@@ -54,7 +57,7 @@ public class ServidorReader implements Runnable {
         }
     }
 
-    private String readLine() {
+    private String lerLinha() {
         String linha = null;
         try {
             linha = in.readLine();
@@ -71,13 +74,16 @@ public class ServidorReader implements Runnable {
                 verificaAutenticacao(false);
                 return this.registar(ss[1]);
 
-            case "iniciarsessao":
+            case "iniciar":
                 verificaAutenticacao(false);
                 return this.iniciarSessao(ss[1]);
 
-            case "terminarsessao":
+            case "terminar":
                 verificaAutenticacao(true);
                 return this.terminarSessao();
+            case "upload":
+                verificaAutenticacao(true);
+                return uploadMusica(ss[2]);
             default:
                 return "ERRO";
         }
@@ -109,5 +115,13 @@ public class ServidorReader implements Runnable {
     private String terminarSessao() {
         this.utilizador = null;
         return "terminada";
+    }
+
+    private String uploadMusica(String in) throws IOException{
+        String[] s = in.split(" ");
+        if (s.length != 4)
+            throw new IOException("Dados incorretos");
+        this.musica = cloud.uploadMusica(new int[] {1111}, s[0], s[1], s[2], s[3]);
+        return "upload";
     }
 }

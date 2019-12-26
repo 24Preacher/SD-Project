@@ -15,8 +15,8 @@ public class Menu {
         return opcao;
     }
 
-    public void setOpcao(int op) {
-        this.opcao = op;
+    public void setOpcao(int opcao) {
+        this.opcao = opcao;
     }
 
     public void setIn(Scanner in) {
@@ -32,6 +32,12 @@ public class Menu {
                         "* 0 - Sair                        *\n" +
                         "***********************************\n");
                 break;
+            case 1:
+                System.out.println("************* MENU ****************\n" +
+                        "* 1 - Upload de música            *\n" +
+                        "* 2 - Download de música          *\n" +
+                        "* 0 - Sair                        *\n" +
+                        "***********************************\n");
         }
         System.out.println("Opção:");
     }
@@ -61,6 +67,11 @@ public class Menu {
     public String lerString(String msg) {
         System.out.println(msg);
         return in.nextLine();
+    }
+
+    public Integer lerInteger(String msg) {
+        System.out.println(msg);
+        return in.nextInt();
     }
 
 

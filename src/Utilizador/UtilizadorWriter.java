@@ -22,36 +22,46 @@ public class UtilizadorWriter implements Runnable{
     }
 
     public void run() {
-        int op;
+        int opcao;
         menu.apresentarMenu();
         try {
-            while ((op = menu.opcao()) != -1) {
-                parse(op);
+            while ((opcao = menu.opcao()) != -1) {
+                parse(opcao);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void parse(Integer op) throws IOException {
+    private void parse(Integer opcao) throws IOException {
         switch (menu.getOpcao()) {
             case 0:
-                if (op == 1) {
+                if (opcao == 1) {
                     iniciarSessao();
                 }
-                if (op == 2) {
+                if (opcao == 2) {
                     registar();
                 }
-                if (op == 0)
+                if (opcao == 0)
                     System.exit(0);
                 break;
+            case 1:
+                if (opcao == 1){
+                    uploadMusica();
+                }
+                /*if (opcao == 2){
+                    downloadMusica();
+                }*/
+                if (opcao == 0){
+                    terminarSessao();
+                }
         }
     }
 
     private void iniciarSessao() throws IOException{
         String username = menu.lerString("Username: ");
         String password = menu.lerString("Password: ");
-        String q = String.join(" ", "iniciarsessao", username, password);
+        String q = String.join(" ", "iniciar", username, password);
         out.write(q);
         out.newLine();
         out.flush();
@@ -61,6 +71,23 @@ public class UtilizadorWriter implements Runnable{
         String username = menu.lerString("Username: ");
         String password = menu.lerString("Password: ");
         String q = String.join(" ", "registar", username, password);
+        out.write(q);
+        out.newLine();
+        out.flush();
+    }
+
+    private void terminarSessao() throws IOException {
+        out.write("terminar");
+        out.newLine();
+        out.flush();
+    }
+
+    private  void uploadMusica() throws IOException{
+        String titulo = menu.lerString("Titulo:");
+        String artista = menu.lerString("Artista:");
+        String album = menu.lerString("Album:");
+        Integer genero = menu.lerInteger("0 - Variavel\n 1 - Pop\n 2 - Rock\n 3 - Rap\n 4-Trap\n Escolher opção: ");
+        String q = String.join(" ", "upload", titulo, artista, album, genero.toString());
         out.write(q);
         out.newLine();
         out.flush();

@@ -43,6 +43,8 @@ public class UtilizadorReader implements Runnable {
                 menu.setOpcao(0);
                 menu.apresentarMenu();
                 break;
+            case "upload":
+
             default:
                 System.out.println(comando);
                 menu.apresentarMenu();

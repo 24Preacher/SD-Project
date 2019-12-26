@@ -44,4 +44,14 @@ public class Cloud {
 
         return u;
     }
+
+    public void uploadMusica(String path, String titulo, String artista, String album, String genero){
+        musicasLock.lock();
+        try {
+            int id = this.musicas.size();
+            musicas.put(id, new Musica(id, bytes, titulo, artista, album, Integer.parseInt(genero), 0));
+        } finally {
+            musicasLock.unlock();
+        }
+    }
 }

@@ -114,6 +114,8 @@ public class ServidorReader implements Runnable {
         return "terminada";
     }
 
+
+
     private String uploadMusica(String in) throws IOException{
         String[] s = in.split(" ");
         if (s.length != 5)
@@ -127,15 +129,18 @@ public class ServidorReader implements Runnable {
         List<String> resultado = new ArrayList<>();
         for (Musica songs : m) {
             int id = songs.getId();
-            byte[] bytes = songs.getSong();
+            // byte[] bytes = songs.getSong();
             String titulo = songs.getTitulo();
             String artista = songs.getArtista();
+            String album = songs.getAlbum();
             int genero = songs.getGenero();
             int downloads = songs.getnDownloads();
-            String s = String.join("\n" ,Integer.toString(id), bytes.toString(),
-                    titulo, artista, Integer.toString(genero), Integer.toString(downloads));
+            String s = String.join(" " ,Integer.toString(id),
+                    titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
             resultado.add(s);
         }
+        //System.out.println(resultado.toString());
+        System.out.println("trolei");
         return resultado;
     }
 }

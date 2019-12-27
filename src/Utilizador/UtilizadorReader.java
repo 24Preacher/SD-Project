@@ -46,14 +46,21 @@ public class UtilizadorReader implements Runnable {
             case "uploaded":
                 menu.setOpcao(1);
                 menu.apresentarMenu();
+
+                System.out.println("passei no upload");
                 break;
             case "visto":
+
                 menu.setOpcao(1);
                 menu.apresentarMenu();
+
+                System.out.println("passei no visto");
                 break;
             default:
                 System.out.println(comando);
                 menu.apresentarMenu();
+
+                System.out.println("passei no default");
         }
     }
 }

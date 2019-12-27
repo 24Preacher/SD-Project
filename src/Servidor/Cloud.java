@@ -59,6 +59,8 @@ public class Cloud {
         }
         out.flush();
         byte[] audioBytes = out.toByteArray();
+        in.close();
+        out.close();
         return audioBytes;
     }
 

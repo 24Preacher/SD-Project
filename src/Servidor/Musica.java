@@ -87,7 +87,9 @@ public class Musica {
         this.nDownloads = nDownloads;
     }
 
-
+    public void nDowloadsInc(){
+        setnDownloads((this.nDownloads+1));
+    }
 
 }
 

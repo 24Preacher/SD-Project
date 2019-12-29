@@ -76,13 +76,14 @@ public class Cloud {
 
 
     public void downloadMusica(int id) throws IOException {
-        String path = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
+        String path = "/home/packman/Documentos/UM/SD/SD-Project/src/Musicas/" + id + ".txt";
         byte[] bytes = conversor(path);
 
         Musica m = this.musicas.get(id);
         String titulo = m.getTitulo();
-        String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Download/" + titulo + ".mp3";
+        String destPath = "/home/packman/Documentos/UM/SD/SD-Project/src/Download/" + titulo + ".mp3";
         byteToFile(bytes,destPath);
+        m.nDowloadsInc();
 
 
     }
@@ -95,7 +96,7 @@ public class Cloud {
             System.out.println(id);
             byte[] bytes = conversor(path);
             this.musicas.put(id, new Musica(id, bytes, titulo, artista, album, Integer.parseInt(genero), 0));
-            String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
+            String destPath = "/home/packman/Documentos/UM/SD/SD-Project/src/Musicas/" + id + ".txt";
             byteToFile(bytes,destPath);
         } finally {
             this.musicasLock.unlock();

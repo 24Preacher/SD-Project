@@ -95,7 +95,7 @@ public class UtilizadorWriter implements Runnable{
 
     private  void uploadMusica() throws IOException{
         String nomefich = menu.lerString("Ficheiro:");
-        String path = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Upload/" + nomefich;
+        String path = "/home/packman/Documentos/UM/SD/SD-Project/src/Upload/" + nomefich;
         String titulo = menu.lerString("Titulo:");
         String artista = menu.lerString("Artista:");
         String album = menu.lerString("Album:");

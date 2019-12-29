@@ -56,6 +56,10 @@ public class UtilizadorReader implements Runnable {
 
                 System.out.println("passei no visto");
                 break;
+            case "downloaded":
+                menu.setOpcao(1);
+                menu.apresentarMenu();
+                System.out.println("passei no downloaded");
             default:
                 System.out.println(comando);
                 menu.apresentarMenu();

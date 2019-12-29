@@ -32,7 +32,7 @@ public class ServidorReader implements Runnable {
             try {
                 this.msg.write(parse(r));
             } catch (IndexOutOfBoundsException e) {
-                this.msg.write("Inadequado");
+                this.msg.write("Inadequado teste");
             } catch (IOException e) {
 
                 e.printStackTrace();
@@ -81,6 +81,9 @@ public class ServidorReader implements Runnable {
             case "ver":
                 verificaAutenticacao(true);
                 return this.verMusicas().toString();
+            case "download":
+                verificaAutenticacao(true);
+                return this.downloadMusica(ss[1]);
             default:
                 return "ERRO";
         }
@@ -114,7 +117,16 @@ public class ServidorReader implements Runnable {
         return "terminada";
     }
 
-
+    private String downloadMusica(String in) throws IOException{
+        String[] s = in.split(" ");
+        if (s.length != 1)
+            throw new IOException("Dados incorretos teste");
+        int id = Integer.parseInt(s[0]);
+        if (!this.cloud.containMusicID(id))
+            throw new IOException("A música não existe");
+        this.cloud.downloadMusica(id);
+        return "downloaded";
+    }
 
     private String uploadMusica(String in) throws IOException{
         String[] s = in.split(" ");
@@ -129,7 +141,6 @@ public class ServidorReader implements Runnable {
         List<String> resultado = new ArrayList<>();
         for (Musica songs : m) {
             int id = songs.getId();
-            // byte[] bytes = songs.getSong();
             String titulo = songs.getTitulo();
             String artista = songs.getArtista();
             String album = songs.getAlbum();
@@ -139,8 +150,6 @@ public class ServidorReader implements Runnable {
                     titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
             resultado.add(s);
         }
-        //System.out.println(resultado.toString());
-        System.out.println("trolei");
         return resultado;
     }
 }

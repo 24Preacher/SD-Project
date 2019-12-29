@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+
+
 public class Cloud {
 
     private Map<String, Utilizador> users;
@@ -64,6 +66,28 @@ public class Cloud {
         return audioBytes;
     }
 
+
+    public void byteToFile (byte [] buff, String destPath ) throws IOException {
+        FileOutputStream out = new FileOutputStream(new File(destPath));
+        out.write(buff);
+        out.flush();
+        out.close();
+    }
+
+
+    public void downloadMusica(int id) throws IOException {
+        String path = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
+        byte[] bytes = conversor(path);
+
+        Musica m = this.musicas.get(id);
+        String titulo = m.getTitulo();
+        String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Download/" + titulo + ".mp3";
+        byteToFile(bytes,destPath);
+
+
+    }
+
+
     public void uploadMusica(String path, String titulo, String artista, String album, String genero) throws IOException {
         this.musicasLock.lock();
         try {
@@ -71,6 +95,8 @@ public class Cloud {
             System.out.println(id);
             byte[] bytes = conversor(path);
             this.musicas.put(id, new Musica(id, bytes, titulo, artista, album, Integer.parseInt(genero), 0));
+            String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
+            byteToFile(bytes,destPath);
         } finally {
             this.musicasLock.unlock();
         }
@@ -81,5 +107,11 @@ public class Cloud {
         for (Musica m : this.musicas.values())
                     songs.add(m);
         return songs;
+    }
+
+    public boolean containMusicID(int id){
+        if (this.musicas.containsKey(id)) return true;
+        else return false;
+
     }
 }

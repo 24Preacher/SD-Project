@@ -49,9 +49,9 @@ public class UtilizadorWriter implements Runnable{
                 if (opcao == 1){
                     uploadMusica();
                 }
-                /*if (opcao == 2){
+                if (opcao == 2){
                     downloadMusica();
-                }*/
+                }
                 if (opcao == 3){
                     verMusicas();
                 }
@@ -85,9 +85,17 @@ public class UtilizadorWriter implements Runnable{
         out.flush();
     }
 
+    private void downloadMusica() throws IOException{
+        String id = menu.lerString("Inserir id da musica a transferir:");
+        String q = String.join(" ","download", id);
+        out.write(q);
+        out.newLine();
+        out.flush();
+    }
+
     private  void uploadMusica() throws IOException{
         String nomefich = menu.lerString("Ficheiro:");
-        String path = "/home/packman/Documentos/UM/SD/SD-Project/src/Upload/" + nomefich;
+        String path = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Upload/" + nomefich;
         String titulo = menu.lerString("Titulo:");
         String artista = menu.lerString("Artista:");
         String album = menu.lerString("Album:");

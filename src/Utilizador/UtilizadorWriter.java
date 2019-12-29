@@ -58,6 +58,22 @@ public class UtilizadorWriter implements Runnable{
                 if (opcao == 0){
                     terminarSessao();
                 }
+            case 2 :
+                if (opcao == 1) {
+                    verMusicasTitulo();
+                }
+                if (opcao == 2) {
+                    verMusicasArtista();
+                }
+              /*  if (opcao == 3) {
+                    verMusicasAlbum();
+                }*/
+                if (opcao == 4) {
+                    verMusicasGenero();
+                }
+                if (opcao == 0) {
+                    voltarInicio();
+                }
         }
     }
 
@@ -108,6 +124,44 @@ public class UtilizadorWriter implements Runnable{
 
     private void verMusicas() throws IOException{
         out.write("ver");
+        out.newLine();
+        out.flush();
+    }
+
+    private void verMusicasTitulo() throws IOException{
+        String titulo = menu.lerString("Qual o Titulo da música?");
+        String q = String.join(" ", "titulo", titulo);
+        out.write(q);
+        out.newLine();
+        out.flush();
+    }
+
+    private void verMusicasArtista() throws IOException{
+        String artista = menu.lerString("Qual o Artista da música?");
+        String q = String.join(" ", "artista", artista);
+        out.write(q);
+        out.newLine();
+        out.flush();
+    }
+
+  /*  private void verMusicasAlbum() throws IOException{
+        String album = menu.lerString("Qual o Album da música?");
+        String q = String.join(" ", "album", album);
+        out.write(q);
+        out.newLine();
+        out.flush();
+    }
+*/
+    private void verMusicasGenero() throws IOException{
+        String genero = menu.lerString("Qual o Genero da música?\n 0 - Variavel\n1 - Pop\n2 - Rock\n3 - Rap\n4 - Trap\n Escolher opção: ");
+        String q = String.join(" ", "genero", genero);
+        out.write(q);
+        out.newLine();
+        out.flush();
+    }
+
+    private void voltarInicio() throws IOException{
+        out.write("voltar");
         out.newLine();
         out.flush();
     }

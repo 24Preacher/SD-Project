@@ -113,6 +113,41 @@ public class Cloud {
     public boolean containMusicID(int id){
         if (this.musicas.containsKey(id)) return true;
         else return false;
+    }
 
+    public List<Musica> verMusicasTitulo(String in){
+        List<Musica> songs = new ArrayList<>();
+        for (Musica m : this.musicas.values()) {
+            if (m.getTitulo().equals(in))
+                songs.add(m);
+        }
+        return songs;
+    }
+
+    public List<Musica> verMusicasArtista(String in){
+        List<Musica> songs = new ArrayList<>();
+        for (Musica m : this.musicas.values()) {
+            if (m.getArtista().equals(in))
+                songs.add(m);
+        }
+        return songs;
+    }
+
+    public List<Musica> verMusicasAlbum(String in){
+        List<Musica> songs = new ArrayList<>();
+        for (Musica m : this.musicas.values()) {
+            if (m.getAlbum().equals(in))
+                songs.add(m);
+        }
+        return songs;
+    }
+
+    public List<Musica> verMusicasGenero(String in){
+        List<Musica> songs = new ArrayList<>();
+        for (Musica m : this.musicas.values()) {
+            if (m.getGenero() == Integer.parseInt(in))
+                songs.add(m);
+        }
+        return songs;
     }
 }

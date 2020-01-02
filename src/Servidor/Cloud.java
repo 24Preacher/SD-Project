@@ -27,8 +27,9 @@ public class Cloud {
     public void registar(String username, String password) throws IOException {
         usersLock.lock();
         try {
-            if (this.users.containsKey(username))
+            if (this.users.containsKey(username)){
                 throw new IOException("Username existente");
+            }
             else this.users.put(username, new Utilizador(username, password));
         } finally {
             usersLock.unlock();
@@ -83,7 +84,7 @@ public class Cloud {
         String titulo = m.getTitulo();
         String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Download/" + titulo + ".mp3";
         byteToFile(bytes,destPath);
-
+        m.nDownloadsInc();
 
     }
 
@@ -94,6 +95,8 @@ public class Cloud {
             int id = this.musicas.size();
             System.out.println(id);
             byte[] bytes = conversor(path);
+            //String dados = bytes.toString();
+            //send ("UPLOAD "+ id + artista + genero + dados)
             this.musicas.put(id, new Musica(id, bytes, titulo, artista, album, Integer.parseInt(genero), 0));
             String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
             byteToFile(bytes,destPath);
@@ -114,4 +117,5 @@ public class Cloud {
         else return false;
 
     }
+
 }

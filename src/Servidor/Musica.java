@@ -1,5 +1,12 @@
 package Servidor;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.swing.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class Musica {
 
     private int id;
@@ -87,7 +94,9 @@ public class Musica {
         this.nDownloads = nDownloads;
     }
 
-
+    public void nDownloadsInc() {
+        setnDownloads((this.nDownloads + 1));
+    }
 
 }
 

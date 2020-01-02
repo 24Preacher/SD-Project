@@ -65,11 +65,23 @@ public class ServidorReader implements Runnable {
         switch (ss[0].toLowerCase()){
             case "registar":
                 verificaAutenticacao(false);
-                return this.registar(ss[1]);
+                try{
+                    String registado = this.registar(ss[1]);
+                    return registado;
+
+                }catch (Exception e){
+                    return "ERRO REGISTO";
+                }
 
             case "iniciar":
                 verificaAutenticacao(false);
-                return this.iniciarSessao(ss[1]);
+                try{
+                    String iniciado = this.iniciarSessao(ss[1]);
+                    return iniciado;
+
+                }catch (Exception e){
+                    return "ERRO DADOS INCORRETOS";
+                }
 
             case "terminar":
                 verificaAutenticacao(true);
@@ -77,6 +89,7 @@ public class ServidorReader implements Runnable {
 
             case "upload":
                 verificaAutenticacao(true);
+
                 return uploadMusica(ss[1]);
             case "ver":
                 verificaAutenticacao(true);
@@ -129,7 +142,7 @@ public class ServidorReader implements Runnable {
     }
 
     private String uploadMusica(String in) throws IOException{
-        String[] s = in.split(" ");
+        String[] s = in.split(" ", 5);
         if (s.length != 5)
             throw new IOException("Dados incorretos");
        this.cloud.uploadMusica(s[0], s[1], s[2], s[3], s[4]);

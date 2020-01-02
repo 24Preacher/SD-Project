@@ -39,6 +39,17 @@ public class Menu {
                         "* 3 - Ver Musicas                 *\n" +
                         "* 0 - Sair                        *\n" +
                         "***********************************\n");
+                break;
+            case 2:
+                System.out.println("************* MENU ****************\n" +
+                        "           Procurar por:          *\n" +
+                        "* 1 - Titulo                      *\n" +
+                        "* 2 - Artista                     *\n" +
+                        "* 3 - Album                       *\n" +
+                        "* 4 - Genero                      *\n" +
+                        "* 0 - Sair                        *\n" +
+                        "***********************************\n");
+                break;
         }
         System.out.println("Opção:");
     }
@@ -57,7 +68,7 @@ public class Menu {
     public Integer opcao() {
         int opcao = lerOpcao();
         if (opcao == 0) {
-            while (opcao < 0 || opcao > 2) {
+            while (opcao < 0 || opcao > 4) {
                 System.out.println("Escolha uma opção: ");
                 opcao = lerOpcao();
             }
@@ -69,11 +80,4 @@ public class Menu {
         System.out.println(msg);
         return in.nextLine();
     }
-
-    public Integer lerInteger(String msg) {
-        System.out.println(msg);
-        return in.nextInt();
-    }
-
-
 }

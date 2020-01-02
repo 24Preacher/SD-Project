@@ -91,12 +91,33 @@ public class ServidorReader implements Runnable {
                 verificaAutenticacao(true);
 
                 return uploadMusica(ss[1]);
+
             case "ver":
+                return "visto";
+
+            case "titulo":
                 verificaAutenticacao(true);
-                return this.verMusicas().toString();
+                return verMusicasTitulo(ss[1]).toString();
+
+            case "artista":
+                verificaAutenticacao(true);
+                return verMusicasArtista(ss[1]).toString();
+
+          /*  case "album":
+                verificaAutenticacao(true);
+                return verMusicasAlbum(ss[1]).toString();
+*/
+            case "genero":
+                verificaAutenticacao(true);
+                return verMusicasGenero(ss[1]).toString();
+
+            case "voltar":
+                return "voltou";
+
             case "download":
                 verificaAutenticacao(true);
                 return this.downloadMusica(ss[1]);
+
             default:
                 return "ERRO";
         }
@@ -165,4 +186,73 @@ public class ServidorReader implements Runnable {
         }
         return resultado;
     }
+
+    private List<String> verMusicasTitulo(String in) {
+        List<Musica> m = cloud.verMusicasTitulo(in);
+        List<String> resultado = new ArrayList<>();
+        for (Musica songs : m) {
+            int id = songs.getId();
+            String titulo = songs.getTitulo();
+            String artista = songs.getArtista();
+            String album = songs.getAlbum();
+            int genero = songs.getGenero();
+            int downloads = songs.getnDownloads();
+            String s = String.join(" " ,Integer.toString(id),
+                    titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
+            resultado.add(s);
+        }
+        return resultado;
+    }
+
+    private List<String> verMusicasArtista(String in) {
+        List<Musica> m = cloud.verMusicasArtista(in);
+        List<String> resultado = new ArrayList<>();
+        for (Musica songs : m) {
+            int id = songs.getId();
+            String titulo = songs.getTitulo();
+            String artista = songs.getArtista();
+            String album = songs.getAlbum();
+            int genero = songs.getGenero();
+            int downloads = songs.getnDownloads();
+            String s = String.join(" " ,Integer.toString(id),
+                    titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
+            resultado.add(s);
+        }
+        return resultado;
+    }
+
+    private List<String> verMusicasAlbum(String in) {
+        List<Musica> m = cloud.verMusicasAlbum(in);
+        List<String> resultado = new ArrayList<>();
+        for (Musica songs : m) {
+            int id = songs.getId();
+            String titulo = songs.getTitulo();
+            String artista = songs.getArtista();
+            String album = songs.getAlbum();
+            int genero = songs.getGenero();
+            int downloads = songs.getnDownloads();
+            String s = String.join(" " ,Integer.toString(id),
+                    titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
+            resultado.add(s);
+        }
+        return resultado;
+    }
+
+    private List<String> verMusicasGenero(String in) {
+        List<Musica> m = cloud.verMusicasGenero(in);
+        List<String> resultado = new ArrayList<>();
+        for (Musica songs : m) {
+            int id = songs.getId();
+            String titulo = songs.getTitulo();
+            String artista = songs.getArtista();
+            String album = songs.getAlbum();
+            int genero = songs.getGenero();
+            int downloads = songs.getnDownloads();
+            String s = String.join(" " ,Integer.toString(id),
+                    titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
+            resultado.add(s);
+        }
+        return resultado;
+    }
+
 }

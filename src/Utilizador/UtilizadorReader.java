@@ -50,25 +50,38 @@ public class UtilizadorReader implements Runnable {
             case "uploaded":
                 menu.setOpcao(1);
                 menu.apresentarMenu();
-
-                System.out.println("passei no upload");
                 break;
             case "visto":
-
+                menu.setOpcao(2);
+                menu.apresentarMenu();
+                break;
+            case "viutitulo":
                 menu.setOpcao(1);
                 menu.apresentarMenu();
-
-                System.out.println("passei no visto");
+                break;
+            case "viuartista":
+                menu.setOpcao(1);
+                menu.apresentarMenu();
+                break;
+            case "viualbum":
+                menu.setOpcao(1);
+                menu.apresentarMenu();
+                break;
+            case "viugenero":
+                menu.setOpcao(1);
+                menu.apresentarMenu();
+                break;
+            case "voltou":
+                menu.setOpcao(1);
+                menu.apresentarMenu();
                 break;
             case "downloaded":
                 menu.setOpcao(1);
                 menu.apresentarMenu();
-                System.out.println("passei no downloaded");
+                break;
             default:
                 System.out.println(comando);
                 menu.apresentarMenu();
-
-                System.out.println("passei no default");
         }
     }
 }

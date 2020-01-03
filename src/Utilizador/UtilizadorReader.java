@@ -14,7 +14,6 @@ public class UtilizadorReader implements Runnable {
     public UtilizadorReader(Menu menu, Socket socket) throws IOException {
         this.socket = socket;
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
         this.menu = menu;
     }
 
@@ -32,9 +31,6 @@ public class UtilizadorReader implements Runnable {
     private synchronized void parse(String comando) {
         String[] p = comando.split(" ", 2);
         switch (p[0].toLowerCase()) {
-            case "ERROAUTENTICACAO":
-                System.out.println("Erro autenticacoa");
-                break;
             case "autenticado":
                 menu.setOpcao(1);
                 menu.apresentarMenu();

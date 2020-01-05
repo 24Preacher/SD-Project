@@ -66,9 +66,9 @@ public class UtilizadorWriter implements Runnable{
                 if (opcao == 6) {
                     verMusicasArtista();
                 }
-              /*  if (opcao == 7) {
+                if (opcao == 7) {
                     verMusicasAlbum();
-                }*/
+                }
                 if (opcao == 8) {
                     verMusicasGenero();
                 }
@@ -165,14 +165,14 @@ public class UtilizadorWriter implements Runnable{
         out.flush();
     }
 
-    /*  private void verMusicasAlbum() throws IOException{
+    private void verMusicasAlbum() throws IOException{
           String album = menu.lerString("Qual o Album da música?");
           String q = String.join(" ", "album", album);
           out.write(q);
           out.newLine();
           out.flush();
       }
-  */
+
     private void verMusicasGenero() throws IOException{
         String genero = menu.lerString("Qual o Genero da música?\n 0 - Variavel\n1 - Pop\n2 - Rock\n3 - Rap\n4 - Trap\n Escolher opção: ");
         String q = String.join(" ", "genero", genero);

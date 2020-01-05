@@ -114,10 +114,10 @@ public class ServidorReader implements Runnable {
                 verificaAutenticacao(true);
                 return verMusicasArtista(ss[1]).toString();
 
-          /*  case "album":
+            case "album":
                 verificaAutenticacao(true);
                 return verMusicasAlbum(ss[1]).toString();
-*/
+
             case "genero":
                 verificaAutenticacao(true);
                 return verMusicasGenero(ss[1]).toString();

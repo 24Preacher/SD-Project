@@ -72,7 +72,6 @@ public class Cloud {
         return audioBytes;
     }
 
-
     public void byteToFile (byte [] buff, String destPath ) throws IOException {
         FileOutputStream out = new FileOutputStream(new File(destPath));
 
@@ -95,16 +94,23 @@ public class Cloud {
         m.nDownloadsInc();
     }
 
-
     public void uploadMusica(String titulo, String artista, String album, String genero) throws IOException {
         this.musicasLock.lock();
         try {
             int id = this.musicas.size();
-
             this.musicas.put(id, new Musica(id, titulo, artista, album, Integer.parseInt(genero), 0));
         } finally {
             this.musicasLock.unlock();
         }
+
+        this.usersLock.lock();
+        try {
+            for (Utilizador u : this.users.values())
+                u.writeNotification("A música " + titulo + " do artista " + artista + " foi uploaded.");
+        } finally {
+            this.usersLock.unlock();
+        }
+
     }
 
     public List<Musica> verMusicas() {

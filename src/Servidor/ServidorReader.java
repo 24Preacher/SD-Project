@@ -73,7 +73,6 @@ public class ServidorReader implements Runnable {
      */
     private String parse(String s) throws IOException {
         String[] ss = s.split(" ", 2);
-        //for ( String cena : ss) System.out.println("Cena + " + cena);
         switch (ss[0].toLowerCase()) {
             case "registar":
                 verificaAutenticacao(false);
@@ -129,7 +128,6 @@ public class ServidorReader implements Runnable {
             case "download":
                 verificaAutenticacao(true);
                 try {
-                    System.out.println("passei download " + ss[1]);
                     String download = this.downloadMusica(ss[1]);
 
                     return download;
@@ -227,7 +225,6 @@ public class ServidorReader implements Runnable {
      */
     private String uploadMusica(String in) throws IOException {
         String[] s = in.split(" ", 5);
-        System.out.println(in);
         int id = this.cloud.getMusicasSize();
         String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
 
@@ -235,9 +232,6 @@ public class ServidorReader implements Runnable {
             throw new IOException("Dados incorretos");
 
         this.cloud.uploadMusica(s[0], s[1], s[2], s[3]);
-        System.out.println("s4 syze " + s[4]);
-        System.out.println("s0 titulo " + s[0]);
-        System.out.println("s1 artista " + s[1]);
 
         try {
             DataInputStream dis = new DataInputStream(this.socket.getInputStream());
@@ -252,7 +246,7 @@ public class ServidorReader implements Runnable {
             while ((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
                 totalRead += read;
                 remaining -= read;
-                System.out.println("read " + totalRead + " bytes.");
+                System.out.println("Read " + totalRead + " bytes.");
                 fos.write(buffer, 0, read);
             }
         } catch (Exception e) {

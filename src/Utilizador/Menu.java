@@ -26,14 +26,14 @@ public class Menu {
     public void apresentarMenu() {
         switch (opcao) {
             case 0:
-                System.out.println("************* MENU ****************\n" +
+                System.out.println("\n************* MENU ****************\n" +
                         "* 1 - Iniciar Sessão              *\n" +
                         "* 2 - Registar Utilizador         *\n" +
                         "* 0 - Sair                        *\n" +
                         "***********************************\n");
                 break;
             case 1:
-                System.out.println("************* MENU ****************\n" +
+                System.out.println("\n************* MENU ****************\n" +
                         "* 1 - Upload de música            *\n" +
                         "* 2 - Download de música          *\n" +
                         "* 3 - Ver Musicas                 *\n" +
@@ -41,7 +41,7 @@ public class Menu {
                         "***********************************\n");
                 break;
             case 2:
-                System.out.println("************* MENU ****************\n" +
+                System.out.println("\n************* MENU ****************\n" +
                         "           Procurar por:          *\n" +
                         "* 5 - Titulo                      *\n" +
                         "* 6 - Artista                     *\n" +

@@ -64,6 +64,11 @@ public class Utilizador {
         this.password = password;
     }
 
+
+    public void writeNotification( String message ) {
+        msg.write(message);
+    }
+
     /**
      * Atualiza o Buffer de Mensagens do Utilizador
      * @param msg
@@ -79,5 +84,9 @@ public class Utilizador {
      */
     public boolean autenticar(String password) {
         return this.password.equals(password);
+    }
+
+    public String readNotification() throws InterruptedException {
+        return msg.read();
     }
 }

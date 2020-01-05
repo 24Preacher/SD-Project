@@ -58,12 +58,12 @@ public class UtilizadorWriter implements Runnable{
                 if (opcao == 0){
                     terminarSessao();
                 }
+                break;
             case 2 :
                 if (opcao == 5) {
                     verMusicasTitulo();
                 }
                 if (opcao == 6) {
-                    System.out.println("bingo!");
                     verMusicasArtista();
                 }
               /*  if (opcao == 7) {
@@ -75,6 +75,7 @@ public class UtilizadorWriter implements Runnable{
                 if (opcao == 0) {
                     voltarInicio();
                 }
+                break;
 
 
         }
@@ -132,10 +133,8 @@ public class UtilizadorWriter implements Runnable{
         String album = menu.lerString("Album:");
         String genero = menu.lerString("0 - Variavel\n1 - Pop\n2 - Rock\n3 - Rap\n4 - Trap\n Escolher opção: ");
         File file = new File(path);
-        System.out.println(file.getAbsolutePath());
 
         String q = String.join(" ", "upload", titulo, artista, album, genero, Long.toString(file.length()));
-        System.out.println(q);
 
         out.write(q);
         out.newLine();

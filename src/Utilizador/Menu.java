@@ -43,10 +43,10 @@ public class Menu {
             case 2:
                 System.out.println("************* MENU ****************\n" +
                         "           Procurar por:          *\n" +
-                        "* 1 - Titulo                      *\n" +
-                        "* 2 - Artista                     *\n" +
-                        "* 3 - Album                       *\n" +
-                        "* 4 - Genero                      *\n" +
+                        "* 5 - Titulo                      *\n" +
+                        "* 6 - Artista                     *\n" +
+                        "* 7 - Album                       *\n" +
+                        "* 8 - Genero                      *\n" +
                         "* 0 - Sair                        *\n" +
                         "***********************************\n");
                 break;

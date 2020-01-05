@@ -9,8 +9,6 @@ public class Musica {
     /**Identificar da música*/
     private int id;
     /**Array de bytes da música*/
-    private byte[] song;
-    /**Titulo da música*/
     private String titulo;
     /**Artista da música*/
     private String artista;
@@ -24,16 +22,14 @@ public class Musica {
     /**
      * Cosntrutor parametrizado da Classe Música
      * @param id Identificar da música
-     * @param song Array de bytes da música
      * @param titulo Titulo da música
      * @param artista Artista da música
      * @param album Album da música
      * @param genero Genero da música
      * @param nDownloads Número de downloads da música
      */
-    public Musica(int id, byte[] song, String titulo, String artista, String album, int genero, int nDownloads) {
+    public Musica(int id, String titulo, String artista, String album, int genero, int nDownloads) {
         this.id = id;
-        this.song = song;
         this.titulo = titulo;
         this.artista = artista;
         this.album = album;
@@ -46,7 +42,6 @@ public class Musica {
      */
     public Musica(){
         this.id = 0;
-        this.song = new byte[1];
         this.titulo = "";
         this.artista = "";
         this.album = "";
@@ -60,15 +55,6 @@ public class Musica {
      */
     public int getId() {
         return id;
-    }
-
-    /**
-     * Devolve o array de bytes da música
-     * @return songs
-     */
-
-    public byte[] getSong() {
-        return song;
     }
 
     /**
@@ -119,13 +105,6 @@ public class Musica {
         this.id = id;
     }
 
-    /**
-     * Atualiza o Array de bytes da Música
-     * @param song Novo Array de bytes
-     */
-    public void setSong(byte[] song) {
-        this.song = song;
-    }
 
     /**
      * Atualiza o Titulo da música
@@ -170,9 +149,8 @@ public class Musica {
     /**
      * Incrementa 1 ao número de Downloads da música
      */
-    public void nDowloadsInc(){
+    public void nDownloadsInc(){
         setnDownloads((this.nDownloads+1));
     }
 
 }
-

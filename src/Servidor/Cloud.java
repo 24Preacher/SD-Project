@@ -27,12 +27,17 @@ public class Cloud {
     public void registar(String username, String password) throws IOException {
         usersLock.lock();
         try {
-            if (this.users.containsKey(username))
+            if (this.users.containsKey(username)){
                 throw new IOException("Username existente");
+            }
             else this.users.put(username, new Utilizador(username, password));
         } finally {
             usersLock.unlock();
         }
+    }
+
+    public int getMusicasSize(){
+        return this.musicas.size();
     }
 
     public Utilizador iniciarSessao(String username, String password, MensagemBuffer msg) throws IOException {
@@ -63,12 +68,14 @@ public class Cloud {
         byte[] audioBytes = out.toByteArray();
         in.close();
         out.close();
+
         return audioBytes;
     }
 
 
     public void byteToFile (byte [] buff, String destPath ) throws IOException {
         FileOutputStream out = new FileOutputStream(new File(destPath));
+
         out.write(buff);
         out.flush();
         out.close();
@@ -76,28 +83,25 @@ public class Cloud {
 
 
     public void downloadMusica(int id) throws IOException {
-        String path = "/home/packman/Documentos/UM/SD/SD-Project/src/Musicas/" + id + ".txt";
+        String path = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
         byte[] bytes = conversor(path);
 
         Musica m = this.musicas.get(id);
         String titulo = m.getTitulo();
-        String destPath = "/home/packman/Documentos/UM/SD/SD-Project/src/Download/" + titulo + ".mp3";
+        String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Download/" + titulo + ".mp3";
+
         byteToFile(bytes,destPath);
-        m.nDowloadsInc();
 
-
+        m.nDownloadsInc();
     }
 
 
-    public void uploadMusica(String path, String titulo, String artista, String album, String genero) throws IOException {
+    public void uploadMusica(String titulo, String artista, String album, String genero) throws IOException {
         this.musicasLock.lock();
         try {
             int id = this.musicas.size();
-            System.out.println(id);
-            byte[] bytes = conversor(path);
-            this.musicas.put(id, new Musica(id, bytes, titulo, artista, album, Integer.parseInt(genero), 0));
-            String destPath = "/home/packman/Documentos/UM/SD/SD-Project/src/Musicas/" + id + ".txt";
-            byteToFile(bytes,destPath);
+
+            this.musicas.put(id, new Musica(id, titulo, artista, album, Integer.parseInt(genero), 0));
         } finally {
             this.musicasLock.unlock();
         }
@@ -106,7 +110,7 @@ public class Cloud {
     public List<Musica> verMusicas() {
         List<Musica> songs = new ArrayList<>();
         for (Musica m : this.musicas.values())
-                    songs.add(m);
+            songs.add(m);
         return songs;
     }
 

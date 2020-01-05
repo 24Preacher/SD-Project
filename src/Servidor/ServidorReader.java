@@ -1,38 +1,20 @@
 package Servidor;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Classe da Thread ServidorReader.
- * @author Grupo 12
- */
 public class ServidorReader implements Runnable {
 
-    /**Utilizador autenticado*/
     private Utilizador utilizador;
-    /**Musica a utilizar*/
     private Musica musica;
-    /**Buffer Reader*/
     private BufferedReader in;
-    /**Buffer de Mensagens do Servido*/
     private MensagemBuffer msg;
-    /**Socket*/
     private Socket socket;
-    /**Classe Cloud*/
     private Cloud cloud;
 
-    /**
-     * Construtor parametrizado da Classe ServidorReader
-     * @param msg Buffer de Mensagens do Servidor
-     * @param socket Socket
-     * @param cloud Classe Cloud
-     * @throws IOException
-     */
+
     public ServidorReader(MensagemBuffer msg, Socket socket, Cloud cloud) throws IOException {
         this.msg = msg;
         this.socket = socket;
@@ -42,21 +24,19 @@ public class ServidorReader implements Runnable {
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
-    /**
-     * Método para executar a Classe ServidorReader
-     */
     public void run() {
         String r;
         while ((r = lerLinha()) != null) {
             try {
                 this.msg.write(parse(r));
             } catch (IndexOutOfBoundsException e) {
-                this.msg.write("Inadequado teste");
+                this.msg.write("Inadequado");
             } catch (IOException e) {
 
                 e.printStackTrace();
             }
         }
+
         if (this.utilizador == null) {
             try {
                 this.socket.shutdownInput();
@@ -70,12 +50,14 @@ public class ServidorReader implements Runnable {
 
     /**
      * Lê a linha do BufferReader
+     *
      * @return Linha lida
      */
     private String lerLinha() {
         String linha = null;
         try {
             linha = this.in.readLine();
+            System.out.println(linha);
         } catch (IOException e) {
             System.out.println("Impossível ler mais mensagens");
         }
@@ -84,20 +66,34 @@ public class ServidorReader implements Runnable {
 
     /**
      * Faz parse das linhas lidas para controlar as atividades do Servidor
+     *
      * @param s String
      * @return String
      * @throws IOException
      */
     private String parse(String s) throws IOException {
-        String[] ss = s.split(" ",2);
-        switch (ss[0].toLowerCase()){
+        String[] ss = s.split(" ", 2);
+        //for ( String cena : ss) System.out.println("Cena + " + cena);
+        switch (ss[0].toLowerCase()) {
             case "registar":
                 verificaAutenticacao(false);
-                return this.registar(ss[1]);
+                try {
+                    String registado = this.registar(ss[1]);
+                    return registado;
+
+                } catch (Exception e) {
+                    return "ERRO REGISTO";
+                }
 
             case "iniciar":
                 verificaAutenticacao(false);
-                return this.iniciarSessao(ss[1]);
+                try {
+                    String iniciado = this.iniciarSessao(ss[1]);
+                    return iniciado;
+
+                } catch (Exception e) {
+                    return "ERRO DADOS INCORRETOS";
+                }
 
             case "terminar":
                 verificaAutenticacao(true);
@@ -108,6 +104,7 @@ public class ServidorReader implements Runnable {
                 return uploadMusica(ss[1]);
 
             case "ver":
+                verificaAutenticacao(true);
                 return "visto";
 
             case "titulo":
@@ -131,7 +128,15 @@ public class ServidorReader implements Runnable {
 
             case "download":
                 verificaAutenticacao(true);
-                return this.downloadMusica(ss[1]);
+                try {
+                    System.out.println("passei download " + ss[1]);
+                    String download = this.downloadMusica(ss[1]);
+
+                    return download;
+
+                } catch (Exception e) {
+                    return "ERRO MUSICA INEXISTENTE";
+                }
 
             default:
                 return "ERRO";
@@ -140,6 +145,7 @@ public class ServidorReader implements Runnable {
 
     /**
      * Verifica se um Utilizador está autenticado
+     *
      * @param estado Estado da sessão
      * @throws IOException
      */
@@ -152,6 +158,7 @@ public class ServidorReader implements Runnable {
 
     /**
      * Regista um novo utilizador
+     *
      * @param in Linha lida do BufferReader
      * @return String
      * @throws IOException
@@ -166,6 +173,7 @@ public class ServidorReader implements Runnable {
 
     /**
      * Inicia a Sessão no Servidor
+     *
      * @param in Linha lida do BufferReader
      * @return String
      * @throws IOException
@@ -174,12 +182,13 @@ public class ServidorReader implements Runnable {
         String[] s = in.split(" ");
         if (s.length != 2)
             throw new IOException("Dados incorretos");
-        this.utilizador = cloud.iniciarSessao(s[0], s[1],msg);
+        this.utilizador = cloud.iniciarSessao(s[0], s[1], msg);
         return "autenticado";
     }
 
     /**
      * Termina a Sessão de um Utilizador no Servidor
+     *
      * @return String
      */
     private String terminarSessao() {
@@ -189,37 +198,73 @@ public class ServidorReader implements Runnable {
 
     /**
      * Faz download a uma música
+     *
      * @param in Linha lida do BufferReader
      * @return String
      * @throws IOException
      */
-    private String downloadMusica(String in) throws IOException{
+    private String downloadMusica(String in) throws IOException {
         String[] s = in.split(" ");
         if (s.length != 1)
             throw new IOException("Dados incorretos teste");
+
         int id = Integer.parseInt(s[0]);
+
         if (!this.cloud.containMusicID(id))
             throw new IOException("A música não existe");
+
         this.cloud.downloadMusica(id);
+
         return "downloaded";
     }
 
     /**
      * Faz upload de uma música
+     *
      * @param in Linha lida do BufferReader
-     * @return String
+     * @return String todo meter isto melhor
      * @throws IOException
      */
-    private String uploadMusica(String in) throws IOException{
-        String[] s = in.split(" ");
+    private String uploadMusica(String in) throws IOException {
+        String[] s = in.split(" ", 5);
+        System.out.println(in);
+        int id = this.cloud.getMusicasSize();
+        String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
+
         if (s.length != 5)
             throw new IOException("Dados incorretos");
-       this.cloud.uploadMusica(s[0], s[1], s[2], s[3], s[4]);
+
+        this.cloud.uploadMusica(s[0], s[1], s[2], s[3]);
+        System.out.println("s4 syze " + s[4]);
+        System.out.println("s0 titulo " + s[0]);
+        System.out.println("s1 artista " + s[1]);
+
+        try {
+            DataInputStream dis = new DataInputStream(this.socket.getInputStream());
+            FileOutputStream fos = new FileOutputStream(destPath);
+            byte[] buffer = new byte[Integer.parseInt(s[4])];
+
+
+            int filesize = Integer.parseInt(s[4]); // Send file size in separate msg
+            int read = 0;
+            int totalRead = 0;
+            int remaining = filesize;
+            while ((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
+                totalRead += read;
+                remaining -= read;
+                System.out.println("read " + totalRead + " bytes.");
+                fos.write(buffer, 0, read);
+            }
+        } catch (Exception e) {
+            throw new IOException("Upload failed");
+        }
+
         return "uploaded";
     }
 
     /**
      * Ve todas as músicas do Servidor
+     *
      * @return Lista com as músicas
      */
     private List<String> verMusicas() {
@@ -232,7 +277,7 @@ public class ServidorReader implements Runnable {
             String album = songs.getAlbum();
             int genero = songs.getGenero();
             int downloads = songs.getnDownloads();
-            String s = String.join(" " ,Integer.toString(id),
+            String s = String.join(" ", Integer.toString(id),
                     titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
             resultado.add(s);
         }
@@ -241,6 +286,7 @@ public class ServidorReader implements Runnable {
 
     /**
      * Ve todas as músicas com um determinado Titulo
+     *
      * @param in Linha lida do BufferReader
      * @return Lista das músicas
      */
@@ -254,7 +300,7 @@ public class ServidorReader implements Runnable {
             String album = songs.getAlbum();
             int genero = songs.getGenero();
             int downloads = songs.getnDownloads();
-            String s = String.join(" " ,Integer.toString(id),
+            String s = String.join(" ", Integer.toString(id),
                     titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
             resultado.add(s);
         }
@@ -263,6 +309,7 @@ public class ServidorReader implements Runnable {
 
     /**
      * Ve todas as músicas com um determinado Artista
+     *
      * @param in Linha lida do BufferReader
      * @return Lista das músicas
      */
@@ -276,7 +323,7 @@ public class ServidorReader implements Runnable {
             String album = songs.getAlbum();
             int genero = songs.getGenero();
             int downloads = songs.getnDownloads();
-            String s = String.join(" " ,Integer.toString(id),
+            String s = String.join(" ", Integer.toString(id),
                     titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
             resultado.add(s);
         }
@@ -285,6 +332,7 @@ public class ServidorReader implements Runnable {
 
     /**
      * Ve todas as músicas com um determinado Album
+     *
      * @param in Linha lida do BufferReader
      * @return Lista das músicas
      */
@@ -298,7 +346,7 @@ public class ServidorReader implements Runnable {
             String album = songs.getAlbum();
             int genero = songs.getGenero();
             int downloads = songs.getnDownloads();
-            String s = String.join(" " ,Integer.toString(id),
+            String s = String.join(" ", Integer.toString(id),
                     titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
             resultado.add(s);
         }
@@ -307,6 +355,7 @@ public class ServidorReader implements Runnable {
 
     /**
      * Ve todas as músicas com um determinado Genero
+     *
      * @param in Linha lida do BufferReader
      * @return Lista das músicas
      */
@@ -320,7 +369,7 @@ public class ServidorReader implements Runnable {
             String album = songs.getAlbum();
             int genero = songs.getGenero();
             int downloads = songs.getnDownloads();
-            String s = String.join(" " ,Integer.toString(id),
+            String s = String.join(" ", Integer.toString(id),
                     titulo, artista, album, Integer.toString(genero), Integer.toString(downloads));
             resultado.add(s);
         }

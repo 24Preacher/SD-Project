@@ -47,7 +47,7 @@ public class MensagemBuffer {
      * Verifica se o Buffer está vazio
      * @return Se o buffer está vazio ou não
      */
-   synchronized public boolean isEmpty() {
+    synchronized public boolean isEmpty() {
         return mensagens.size() == index;
     }
 }

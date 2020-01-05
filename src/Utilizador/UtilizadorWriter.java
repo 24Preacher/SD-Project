@@ -1,9 +1,9 @@
 package Utilizador;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.logging.FileHandler;
 
 public class UtilizadorWriter implements Runnable{
     private BufferedWriter out;
@@ -59,21 +59,24 @@ public class UtilizadorWriter implements Runnable{
                     terminarSessao();
                 }
             case 2 :
-                if (opcao == 1) {
+                if (opcao == 5) {
                     verMusicasTitulo();
                 }
-                if (opcao == 2) {
+                if (opcao == 6) {
+                    System.out.println("bingo!");
                     verMusicasArtista();
                 }
-              /*  if (opcao == 3) {
+              /*  if (opcao == 7) {
                     verMusicasAlbum();
                 }*/
-                if (opcao == 4) {
+                if (opcao == 8) {
                     verMusicasGenero();
                 }
                 if (opcao == 0) {
                     voltarInicio();
                 }
+
+
         }
     }
 
@@ -101,25 +104,44 @@ public class UtilizadorWriter implements Runnable{
         out.flush();
     }
 
+    public void enviaMusica(String path) throws IOException {
+        DataOutputStream dos = new DataOutputStream(this.socket.getOutputStream());
+        FileInputStream fis = new FileInputStream(path);
+        byte[] buffer = new byte[4096];
+        int read;
+
+        while ((read = fis.read(buffer)) > 0) {
+            dos.write(buffer,0,read);
+        }
+    }
+
     private void downloadMusica() throws IOException{
         String id = menu.lerString("Inserir id da musica a transferir:");
         String q = String.join(" ","download", id);
+
         out.write(q);
         out.newLine();
         out.flush();
     }
 
-    private  void uploadMusica() throws IOException{
+    private void uploadMusica() throws IOException{
         String nomefich = menu.lerString("Ficheiro:");
-        String path = "/home/packman/Documentos/UM/SD/SD-Project/src/Upload/" + nomefich;
+        String path = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Upload/" + nomefich;
         String titulo = menu.lerString("Titulo:");
         String artista = menu.lerString("Artista:");
         String album = menu.lerString("Album:");
         String genero = menu.lerString("0 - Variavel\n1 - Pop\n2 - Rock\n3 - Rap\n4 - Trap\n Escolher opção: ");
-        String q = String.join(" ", "upload", path, titulo, artista, album, genero);
+        File file = new File(path);
+        System.out.println(file.getAbsolutePath());
+
+        String q = String.join(" ", "upload", titulo, artista, album, genero, Long.toString(file.length()));
+        System.out.println(q);
+
         out.write(q);
         out.newLine();
         out.flush();
+
+        enviaMusica(path);
     }
 
     private void verMusicas() throws IOException{
@@ -144,14 +166,14 @@ public class UtilizadorWriter implements Runnable{
         out.flush();
     }
 
-  /*  private void verMusicasAlbum() throws IOException{
-        String album = menu.lerString("Qual o Album da música?");
-        String q = String.join(" ", "album", album);
-        out.write(q);
-        out.newLine();
-        out.flush();
-    }
-*/
+    /*  private void verMusicasAlbum() throws IOException{
+          String album = menu.lerString("Qual o Album da música?");
+          String q = String.join(" ", "album", album);
+          out.write(q);
+          out.newLine();
+          out.flush();
+      }
+  */
     private void verMusicasGenero() throws IOException{
         String genero = menu.lerString("Qual o Genero da música?\n 0 - Variavel\n1 - Pop\n2 - Rock\n3 - Rap\n4 - Trap\n Escolher opção: ");
         String q = String.join(" ", "genero", genero);
@@ -165,4 +187,5 @@ public class UtilizadorWriter implements Runnable{
         out.newLine();
         out.flush();
     }
+
 }

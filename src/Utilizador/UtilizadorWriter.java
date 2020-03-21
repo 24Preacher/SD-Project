@@ -165,7 +165,7 @@ public class UtilizadorWriter implements Runnable{
         out.flush();
     }
 
-    private void verMusicasAlbum() throws IOException{
+      private void verMusicasAlbum() throws IOException{
           String album = menu.lerString("Qual o Album da música?");
           String q = String.join(" ", "album", album);
           out.write(q);

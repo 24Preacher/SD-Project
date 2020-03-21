@@ -15,7 +15,7 @@ public class Musica {
     /**Album da música*/
     private String album;
     /**Genero da música*/
-    private int genero; //0 - Variavel / 1 - Pop / 2 - Rock / 3 - Rap / 4 -Trap .......
+    private int genero;
     /**Número de downloads da música*/
     private int nDownloads;
 

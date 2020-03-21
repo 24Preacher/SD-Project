@@ -79,6 +79,7 @@ public class UtilizadorReader implements Runnable {
                 menu.apresentarMenu();
             default:
                 System.out.println(comando);
+                System.out.println("ahbgkvgh");
                 menu.apresentarMenu();
         }
     }

@@ -82,12 +82,12 @@ public class Cloud {
 
 
     public void downloadMusica(int id) throws IOException {
-        String path = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
+        String path = "/home/preacher/SD-Project/src/Musicas/" + id + ".txt";
         byte[] bytes = conversor(path);
 
         Musica m = this.musicas.get(id);
         String titulo = m.getTitulo();
-        String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Download/" + titulo + ".mp3";
+        String destPath = "/home/preacher/SD-Project/src/Download/" + titulo + ".mp3";
 
         byteToFile(bytes,destPath);
 

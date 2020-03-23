@@ -13,6 +13,7 @@ public class ServidorReader implements Runnable {
     private MensagemBuffer msg;
     private Socket socket;
     private Cloud cloud;
+    private String titulo;
 
 
     public ServidorReader(MensagemBuffer msg, Socket socket, Cloud cloud) throws IOException {
@@ -226,7 +227,7 @@ public class ServidorReader implements Runnable {
     private String uploadMusica(String in) throws IOException {
         String[] s = in.split(" ", 5);
         int id = this.cloud.getMusicasSize();
-        String destPath = "/home/flash_12/Desktop/SD_1920/SD-Project-master/src/Musicas/" + id + ".txt";
+        String destPath = "/home/preacher/SD-Project/src/Musicas/" + id + ".txt";
 
         if (s.length != 5)
             throw new IOException("Dados incorretos");
